@@ -5,25 +5,16 @@ from datetime import datetime
 class BaseModel:
     def __init__(self, *args, **kwargs):
         if kwargs:
-            for a in kwargs:
-                if a is "id":
-                    self.id = kwargs[a]
-                elif a is "created_at":
-                    self.created_at = datetime.strptime\
-                                      (kwargs[a], "%Y-%m-%dT%H:%M:%S.%f")
-                elif a is "my_number":
-                    self.my_number = kwargs[a]
-                elif a is "updated_at":
-                    self.updated_at = datetime.strptime\
-                                      (kwargs[a], "%Y-%m-%dT%H:%M:%S.%f")
-                elif a is "name":
-                    self.name = kwargs[a]
+            for key, value in kwargs.items():
+                if (key == "created_at" or key == "updated_at"):
+                    value = datetime.strptime\
+                            (value, "%Y-%m-%dT%H:%M:%S.%f")
+                self.__dict__[key] = value
         else:
-            storage.new(self)
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-
+            storage.new(self)
 
 
     def __str__(self):
@@ -31,11 +22,11 @@ class BaseModel:
                                      self.id, self.__dict__)
 
     def save(self):
-        storage.save()
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
-        dicto = self.__dict__
+        dicto = self.__dict__.copy()
         dicto["__class__"] = self.__class__.__name__
         dicto["created_at"] = self.created_at.isoformat()
         dicto["updated_at"] = self.updated_at.isoformat()
