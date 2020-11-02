@@ -1,14 +1,20 @@
+#!/usr/bin/python3
+"""Base class for models"""
 import uuid
 from models import storage
 from datetime import datetime
 
+
 class BaseModel:
+    """BaseModel with all attributes and methods"""
+
     def __init__(self, *args, **kwargs):
+        """Objects constructor"""
+
         if kwargs:
             for key, value in kwargs.items():
                 if (key == "created_at" or key == "updated_at"):
-                    value = datetime.strptime\
-                            (value, "%Y-%m-%dT%H:%M:%S.%f")
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 self.__dict__[key] = value
         else:
             self.id = str(uuid.uuid4())
@@ -16,16 +22,21 @@ class BaseModel:
             self.updated_at = datetime.now()
             storage.new(self)
 
-
     def __str__(self):
+        """Method to return a string representation"""
+
         return "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id, self.__dict__)
 
     def save(self):
+        """Method to update the attribute update_at"""
+
         self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
+        """Method to return a dictionary representation of our object"""
+
         dicto = self.__dict__.copy()
         dicto["__class__"] = self.__class__.__name__
         dicto["created_at"] = self.created_at.isoformat()
