@@ -1,20 +1,30 @@
+#!/usr/bin/python3
+"""Module to serializes instance to Json file and deserializes
+Json file to a instance"""
 import json
 import os.path
-#from models.base_model import BaseModel
+
 
 class FileStorage:
+    """Serializes and deserializes"""
 
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-       return self.__objects
+        """Return dictionary __objects"""
+
+        return self.__objects
 
     def new(self, obj):
+        """Set __objects with obj as value and obj class name + .id as key"""
+
         key = obj.__class__.__name__ + "." + obj.id
         self.__objects[key] = obj
 
     def save(self):
+        """Serializes __objects to Json file"""
+
         newdict = {}
         for key, value in self.__objects.items():
             newdict[key] = value.to_dict()
@@ -23,6 +33,8 @@ class FileStorage:
             json.dump(newdict, thefile)
 
     def reload(self):
+        """Deserializes Json file to __objects"""
+
         if os.path.isfile(self.__file_path):
             from models.base_model import BaseModel
 
