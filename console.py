@@ -3,8 +3,9 @@
 """ Console Module """
 
 import cmd
-import models
 import sys
+from models import storage
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -19,26 +20,149 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     intro = None
 
-    def emptyline(self):
-        """ Does nothing when an empty line is passed as argument to the
-            prompt.
+    def do_all(self, arg):
+        """ Prints all string representation of all instances based or
+            not on the class name.
+
+            Ex: (hbnb) all BaseModel or (hbnb) all.
         """
-        pass
+
+        args = arg.split()
+        if len(args) == 0 or args[0] in {"BaseModel", ''}:
+            list_objs = []
+            for value in storage.all().values():
+                list_objs.append(str(value))
+                print(str(value))
+
+        else:
+            print("** class doesn't exist **")
 
     def do_create(self, arg):
         """ Creates a new instance of BaseModel, saves it (to the JSON file)
-            and prints the id. Ex: $ create BaseModel
-        """
-        print(arg)
+            and prints the id.
 
+            Ex: (hbnb) create BaseModel
+        """
+
+        args = arg.split(' ')
+
+        if args[0] == '':
+            print("** class name missing **")
+
+        elif len(args) == 1 and args[0] == "BaseModel":
+            new_obj = BaseModel()
+            new_obj.save()
+            print(new_obj.id)
+
+        else:
+            print("** class doesn't exist **")
+
+    def do_destroy(self, arg):
+        """ Deletes an instance based on the class name and
+            id (saves the change into the JSON file).
+
+            Ex: (hbnb) destroy BaseModel 1234-1234-1234.
+        """
+
+        args = arg.split(' ')
+
+        if args[0] == '':
+            print("** class name missing **")
+
+        elif args[0] == "BaseModel":
+            if len(args) == 2:
+                key_id = args[0] + "." + args[1]
+                if key_id in storage.all():
+                    del storage.all()[key_id]
+                    storage.save()
+                else:
+                    print("** no instance found **")
+            else:
+                print("** instance id missing **")
+
+        else:
+            print("** class doesn't exist **")
 
     def do_EOF(self, arg):
-        """ Quit command to exit the program. """
+        """ Quit command to exit the program.
+
+            Ex: (hbnb) EOF.
+        """
+
         sys.exit()
 
     def do_quit(self, arg):
-        """ Quit command to exit the program. """
+        """ Quit command to exit the program.
+
+            Ex: (hbnb) quit.
+        """
+
         sys.exit()
+
+    def do_show(self, arg):
+        """ Prints the string representation of an instance based on
+            the class name and id.
+
+            Ex: (hbnb) show BaseModel 1234-1234-1234.
+        """
+
+        args = arg.split(' ')
+
+        if args[0] == '':
+            print("** class name missing **")
+
+        elif args[0] == "BaseModel":
+            if len(args) == 2:
+                for value in storage.all().values():
+                    if value.id == args[1]:
+                        print(value)
+                        break
+                else:
+                    print("** no instance found **")
+            else:
+                print("** instance id missing **")
+
+        else:
+            print("** class doesn't exist **")
+
+    def do_update(self, arg):
+        """ Updates an instance based on the class name and id by adding or
+            updating attribute (saves the change into the JSON file).
+
+            Ex: (hbnb) update BaseModel 1234-1234-1234 email "hbnb@hbtn.com".
+        """
+
+        args = arg.split(' ')
+
+        if args[0] == '':
+            print("** class name missing **")
+
+        elif args[0] == "BaseModel":
+            if len(args) >= 4:
+                key_id = args[0] + "." + args[1]
+                if key_id in storage.all():
+                    args[3] = args[3].lstrip('"')
+                    args[3] = args[3].rstrip('"')
+                    setattr(storage.all()[key_id], args[2], args[3])
+                    storage.save()
+                else:
+                    print("** no instance found **")
+            elif len(args) == 1:
+                print("** instance id missing **")
+            elif len(args) == 2:
+                print("** attribute name missing **")
+            elif len(args) == 3:
+                print("** value missing **")
+
+        else:
+            print("** class doesn't exist **")
+
+    def emptyline(self, arg):
+        """ Does nothing when an empty line is passed as argument to the
+            prompt.
+        """
+
+        pass
 
 
 if __name__ == "__main__":
