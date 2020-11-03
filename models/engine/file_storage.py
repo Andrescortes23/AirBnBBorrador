@@ -42,6 +42,8 @@ class FileStorage:
                 objectfromjson = json.load(thefile)
 
             for key, value in objectfromjson.items():
+                if value["__class__"] == "User":
+                    from models.user import User
                 cls = value["__class__"]
                 obj = eval(cls + "(**value)")
                 self.__objects[key] = obj
