@@ -55,8 +55,11 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif len(args) == 1 and args[0] == "BaseModel":
-            new_obj = BaseModel()
+        elif args[0] in {"BaseModel", "User"}:
+            if args[0] == "BaseModel":
+                new_obj = BaseModel()
+            elif args[0] == "User":
+                new_obj = User()
             new_obj.save()
             print(new_obj.id)
 
