@@ -7,6 +7,11 @@ import sys
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -29,7 +34,8 @@ class HBNBCommand(cmd.Cmd):
         """
 
         args = arg.split(' ')
-        if args[0] in {"BaseModel", "User", ''}:
+        if args[0] in {"BaseModel", "User", "State", "Place",
+                       "City", "Amenity", "Review", ''}:
             list_objs = []
             for value in storage.all().values():
                 if args[0] == "BaseModel" and type(value) == BaseModel:
@@ -55,7 +61,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] in {"BaseModel", "User"}:
+        elif args[0] in {"BaseModel", "User", "Place", "State", "City",
+                         "Amenity", "Review"}:
             if args[0] == "BaseModel":
                 new_obj = BaseModel()
             elif args[0] == "User":
@@ -78,7 +85,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] in {"BaseModel", "User"}:
+        elif args[0] in {"BaseModel", "User", "Place", "State", "City",
+                         "Amenity", "Review"}:
             if len(args) >= 2:
                 key_id = args[0] + "." + args[1]
                 if key_id in storage.all():
@@ -120,7 +128,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] in {"BaseModel", "User"}:
+        elif args[0] in {"BaseModel", "User", "Place", "State", "City",
+                         "Amenity", "Review"}:
             if len(args) >= 2:
                 for value in storage.all().values():
                     if value.id == args[1]:
@@ -146,7 +155,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] in {"BaseModel", "User"}:
+        elif args[0] in {"BaseModel", "User", "Place", "State", "City",
+                         "Amenity", "Review"}:
             if len(args) >= 4:
                 key_id = args[0] + "." + args[1]
                 if key_id in storage.all():
