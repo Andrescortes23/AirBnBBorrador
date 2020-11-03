@@ -20,12 +20,3 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
-
-    def __init__(self):
-        """ Initializes a new User instance. """
-
-        super().__init__()
-        self.email = User.email
-        self.password = User.password
-        self.first_name = User.first_name
-        self.last_name = User.last_name
