@@ -78,8 +78,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] == "BaseModel":
-            if len(args) == 2:
+        elif args[0] in {"BaseModel", "User"}:
+            if len(args) >= 2:
                 key_id = args[0] + "." + args[1]
                 if key_id in storage.all():
                     del storage.all()[key_id]
