@@ -32,11 +32,11 @@ class HBNBCommand(cmd.Cmd):
         if args[0] in {"BaseModel", "User", ''}:
             list_objs = []
             for value in storage.all().values():
-                if args[0] == "BaseModel" and type(value) is BaseModel:
+                if args[0] == "BaseModel" and type(value) == BaseModel:
                     list_objs.append(str(value))
-                elif args[0] == "User" and type(value) is User:
+                elif args[0] == "User" and type(value) == User:
                     list_objs.append(str(value))
-                else:
+                elif args[0] == '':
                     list_objs.append(str(value))
             print(list_objs)
 
@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] == "BaseModel":
+        elif args[0] in {"BaseModel", "User"}:
             if len(args) >= 4:
                 key_id = args[0] + "." + args[1]
                 if key_id in storage.all():
