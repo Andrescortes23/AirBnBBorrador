@@ -120,8 +120,8 @@ class HBNBCommand(cmd.Cmd):
         if args[0] == '':
             print("** class name missing **")
 
-        elif args[0] == "BaseModel":
-            if len(args) == 2:
+        elif args[0] in {"BaseModel", "User"}:
+            if len(args) >= 2:
                 for value in storage.all().values():
                     if value.id == args[1]:
                         print(value)
