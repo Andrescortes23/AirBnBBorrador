@@ -6,6 +6,7 @@ import cmd
 import sys
 from models import storage
 from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -27,12 +28,17 @@ class HBNBCommand(cmd.Cmd):
             Ex: (hbnb) all BaseModel or (hbnb) all.
         """
 
-        args = arg.split()
-        if len(args) == 0 or args[0] in {"BaseModel", ''}:
+        args = arg.split(' ')
+        if args[0] in {"BaseModel", "User", ''}:
             list_objs = []
             for value in storage.all().values():
-                list_objs.append(str(value))
-                print(str(value))
+                if args[0] == "BaseModel" and type(value) is BaseModel:
+                    list_objs.append(str(value))
+                elif args[0] == "User" and type(value) is User:
+                    list_objs.append(str(value))
+                else:
+                    list_objs.append(str(value))
+            print(list_objs)
 
         else:
             print("** class doesn't exist **")
