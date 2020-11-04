@@ -176,7 +176,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
-    def emptyline(self, arg):
+    def emptyline(self):
         """ Does nothing when an empty line is passed as argument to the
             prompt.
         """
