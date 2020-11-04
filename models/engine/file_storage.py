@@ -57,7 +57,7 @@ class FileStorage:
         if os.path.isfile(self.__file_path):
             from models.base_model import BaseModel
 
-            with open(self.__file_path, "r") as thefile:
+            with open(self.__file_path, "r", encoding='UTF-8') as thefile:
                 objectfromjson = json.load(thefile)
 
             for key, value in objectfromjson.items():
@@ -65,4 +65,4 @@ class FileStorage:
                 obj = eval(cls + "(**value)")
                 self.__objects[key] = obj
         else:
-            pass
+            return
