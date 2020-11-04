@@ -43,7 +43,7 @@ class BaseModel:
 
     def save(self):
         """
-        Method to update the attribute update_at
+        Method to update the attribute update_at with current date time
         """
 
         self.updated_at = datetime.now()
@@ -54,7 +54,7 @@ class BaseModel:
         Method to return a dictionary representation of our object
         """
 
-        dicto = self.__dict__.copy()
+        dicto = dict(self.__dict__)
         dicto["__class__"] = self.__class__.__name__
         dicto["created_at"] = self.created_at.isoformat()
         dicto["updated_at"] = self.updated_at.isoformat()
