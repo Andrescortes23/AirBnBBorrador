@@ -9,7 +9,17 @@ class BaseModel:
     """BaseModel with all attributes and methods"""
 
     def __init__(self, *args, **kwargs):
-        """Objects constructor"""
+        """Objects constructor to set:
+        ================
+        id: assign with an uuid when an instance is created
+
+        created_at: assign with the current datetime when instance is created
+
+        updated_at: assign with the current datetime when an instance
+        is created and it will be updated every time you change your object
+
+
+        """
 
         if kwargs:
             for key, value in kwargs.items():
