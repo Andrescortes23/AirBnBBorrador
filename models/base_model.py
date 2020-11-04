@@ -1,12 +1,16 @@
 #!/usr/bin/python3
-"""Base class for models"""
+"""
+Base class for models
+"""
 import uuid
 from models import storage
 from datetime import datetime
 
 
-class BaseModel:
-    """BaseModel with all attributes and methods"""
+class BaseModel():
+    """
+    BaseModel with all attributes and methods
+    """
 
     def __init__(self, *args, **kwargs):
         """Objects constructor to set:
@@ -23,7 +27,7 @@ class BaseModel:
 
         if kwargs:
             for key, value in kwargs.items():
-                if (key == "created_at" or key == "updated_at"):
+                if key == "created_at" or key == "updated_at":
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
