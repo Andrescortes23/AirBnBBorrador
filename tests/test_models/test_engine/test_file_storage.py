@@ -14,9 +14,7 @@ class TestPep8(unittest.TestCase):
     """ Validates PEP8 style """
 
     def test_pep8(self):
-        """ Validates file_storage and test_file_storage PEP8 style
-            conformance
-        """
+        """ Validates PEP8 style conformance """
 
         style = pep8.StyleGuide(quiet=True)
         f1 = 'models/engine/file_storage.py'
